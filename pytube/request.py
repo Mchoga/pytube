@@ -154,12 +154,11 @@ def stream(
 
             # Try to execute the request, ignoring socket timeouts
             try:
-                response = _execute_request(
-                    url,
-                    method="GET",
-                    headers={"Range": range_header},
-                    timeout=timeout
-                )
+                 response = _execute_request(
+                     url+f"&range={downloaded}-{stop_pos}",
+                         method="GET",
+                         timeout=timeout
+                  )
             except URLError as e:
                 # We only want to skip over timeout errors, and
                 # raise any other URLError exceptions
@@ -177,10 +176,16 @@ def stream(
 
         if file_size == default_range_size:
             try:
-                content_range = response.info()["Content-Range"]
-                file_size = int(content_range.split("/")[1])
+                 resp = _execute_request(
+                     url + f"&range={0}-{99999999999}",
+                     method="GET",
+                     timeout=timeout
+                  )
+                  content_range = resp.info()["Content-Length"]
+                  file_size = int(content_range)
+                  print(f"Got content length {content_range}")
             except (KeyError, IndexError, ValueError) as e:
-                logger.error(e)
+                  logger.error(e)
         while True:
             chunk = response.read()
             if not chunk:
