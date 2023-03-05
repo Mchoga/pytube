@@ -187,7 +187,7 @@ class YouTube:
         #     pytube.__js_url__ = None
         #     extract.apply_signature(stream_manifest, self.vid_info, self.js)
 
-        print('Did it work?')
+        
 
         # build instances of :class:`Stream <Stream>`
         # Initialize stream objects
