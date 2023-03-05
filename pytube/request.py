@@ -182,7 +182,7 @@ def stream(
                     timeout=timeout)
                 content_range = resp.info()["Content-Length"]
                 file_size = int(content_range)
-                print(f"Got content length {content_range}")
+                
             except (KeyError, IndexError, ValueError) as e:
                 logger.error(e)
         while True:
